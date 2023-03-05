@@ -1,41 +1,91 @@
-var words = [
-    "airplane" ,
-    "strawberry" ,
-    "diamonds" ,
-    "antihero"
+let answerNode = document.querySelector(`#answer`);
+let resultNode = document.querySelector(`#result`);
+let hintNode = document.querySelector(`#hint`);
+
+let container = document.querySelector(`.button-group`);
+
+
+let words = [
+    "СОБАКА",
+    "ЛОШАДЬ",
+    "СВИНЬЯ",
+    "КРОЛИК",
+    "АЛЛИГАТОР",
+    "АЛЬПАКА",
+    "АМФИБИЯ",
+    "АНАКОНДА",
+    "МУРАВЬЕД",
+    "АНТИЛОПА",
+    "ОБЕЗЬЯНА",
+    "БАБУИН",
+    "БАРСУК",
+    "БАРРАКУДА",
+    "ВАСИЛИСК",
+    "БАБОЧКА",
+    "ВЕРБЛЮД",
+    "ХАМЕЛЕОН",
+    "ГЕПАРД",
+    "СИНИЦА",
+    "КУРИЦА",
+    "ШИМПАНЗЕ",
+    "ШИНШИЛЛА",
+    "БУРУНДУК",
+    "КОБРА",
+    "КОРОВА",
+    "КОЙОТ",
+    "КРОКОДИЛ",
+    "ВОРОНА",
+    "КУКУШКА",
+    "ОЛЕНЬ",
+    "ДИНОЗАВР",
+    "ДЕЛЬФИН",
+    "ГОЛУБЬ",
+    "СТРЕКОЗА"
 ];
 
-var word = words[Math.floor(Math.random() * words.length)];
+// Выбираем слово
+let word = words[Math.floor(Math.random() * words.length)];
 
-var answerArray = [];
-for (var i = 0; i < word.length; i++) {
-    answerArray[i] = "_";
+let answerArray = [];
+for (let ix = 0; ix < word.length; ix++) {
+    answerArray[ix] = "_";
 }
-var remainingLetters = word.length;
+let remainingLetters = word.length;
+let life = word.length;
+hintNode.innerHTML = `Угадай животного, слово из ${remainingLetters} букв!`;
+answerNode.innerHTML = `Осталось ${life} попыток!`;
+resultNode.innerHTML = answerArray.join(" ");
 
-while (remainingLetters > 0) {
-    
-    alert(answerArray.join(" "));
-  
-    var guess = prompt ("Угадайте букву, или нажмите Отмена для, выхода из игры.") ;
+container.addEventListener(`click`, function (evt) {
 
-    if (guess === null) {
-
-        break;
-    } else if (guess.length !== 1) {
-        alert("Пожалуйста, введите одиночную букву.");
-    } else {
-
-        for (var j = 0; j < word.length; j++) {
-            if (word[j] === guess) {
-                answerArray[j] = guess;
-                remainingLetters--;
+    let node = evt.target;
+    let guess = node.innerHTML;
+    if (node.disabled==false && life>0 && remainingLetters>0) {
+        node.disabled = true;
+        if (word.includes(guess) && life > 0 && remainingLetters > 0) {
+            for (let jx = 0; jx < word.length; jx++) {
+                if (word[jx] === guess) {
+                    answerArray[jx] = guess;
+                    remainingLetters--;
+                }
             }
+            resultNode.innerHTML = answerArray.join(" ");
+
+            if (remainingLetters == 0) {
+                resultNode.innerHTML = answerArray.join(" ");
+                answerNode.innerHTML = "Отлично! Вы отгадали слово!";
+            }
+        } else if (life == 1) {
+            life--;
+            answerNode.innerHTML = 'GAME OVER!';
+        } else {
+            life--;
+            answerNode.innerHTML = `Упс! Осталось ${life} попыток!`;
         }
     }
 
+});
 
-}
 
-alert(answerArray.join(" "));
-alert("Отлично! Было загадано слово " + word);
+
+

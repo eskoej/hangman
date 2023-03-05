@@ -1,26 +1,6 @@
-body {
-  margin: 0;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-}
-
-.spy {
-  height: 100px;
-  width: 100px;
-  text-align: center;
-  position: absolute;
-
-  top: 0;
-  left: 0;
-  transition: 1s;
-}
-
-img {
+button {
   width: 100%;
+}
+.col {
+  margin-bottom: 10px;
 }
